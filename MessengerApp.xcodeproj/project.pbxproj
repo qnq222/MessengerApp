@@ -112,12 +112,11 @@
 		FA143A73249935980063FF82 /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
-				FA143A63249933910063FF82 /* ConversationsViewController.swift */,
 				FAEDB36224993A7200DAC22C /* Login - Register */,
+				FA4F79F7249B7EA000958F79 /* TabBar  */,
 				FAEDB35A2499376500DAC22C /* PhotoViewerViewController.swift */,
 				FAEDB35C2499378100DAC22C /* VideoPlayerViewController.swift */,
 				FAEDB35E249937CA00DAC22C /* NewConversationViewController.swift */,
-				FAEDB360249937E000DAC22C /* ProfileViewController.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -165,6 +164,15 @@
 			path = Storyboards;
 			sourceTree = "<group>";
 		};
+		FA4F79F7249B7EA000958F79 /* TabBar  */ = {
+			isa = PBXGroup;
+			children = (
+				FA143A63249933910063FF82 /* ConversationsViewController.swift */,
+				FAEDB360249937E000DAC22C /* ProfileViewController.swift */,
+			);
+			path = "TabBar ";
+			sourceTree = "<group>";
+		};
 		FAEDB36224993A7200DAC22C /* Login - Register */ = {
 			isa = PBXGroup;
 			children = (
@@ -186,6 +194,7 @@
 				FA143A59249933910063FF82 /* Frameworks */,
 				FA143A5A249933910063FF82 /* Resources */,
 				46DCE2F4D61432F092C4AAA0 /* [CP] Embed Pods Frameworks */,
+				E03F1F395FCAD69776BD8EE5 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -281,6 +290,23 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		E03F1F395FCAD69776BD8EE5 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-MessengerApp/Pods-MessengerApp-resources-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Copy Pods Resources";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-MessengerApp/Pods-MessengerApp-resources-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-MessengerApp/Pods-MessengerApp-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
