@@ -14,6 +14,8 @@
 		FA143A67249933910063FF82 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FA143A65249933910063FF82 /* Main.storyboard */; };
 		FA143A69249933940063FF82 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = FA143A68249933940063FF82 /* Assets.xcassets */; };
 		FA143A6C249933940063FF82 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FA143A6A249933940063FF82 /* LaunchScreen.storyboard */; };
+		FA35F82B249BAABC0050503F /* ChatViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA35F82A249BAABC0050503F /* ChatViewController.swift */; };
+		FAB926D5249E907D00C6ED6D /* StorageManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAB926D4249E907D00C6ED6D /* StorageManager.swift */; };
 		FADB3287249A0D5800DDB52B /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = FADB3286249A0D5800DDB52B /* GoogleService-Info.plist */; };
 		FADB3289249A181800DDB52B /* DatabaseManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = FADB3288249A181800DDB52B /* DatabaseManager.swift */; };
 		FAEDB3572499372C00DAC22C /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAEDB3562499372C00DAC22C /* LoginViewController.swift */; };
@@ -37,6 +39,8 @@
 		FA143A68249933940063FF82 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		FA143A6B249933940063FF82 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		FA143A6D249933940063FF82 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		FA35F82A249BAABC0050503F /* ChatViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatViewController.swift; sourceTree = "<group>"; };
+		FAB926D4249E907D00C6ED6D /* StorageManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StorageManager.swift; sourceTree = "<group>"; };
 		FADB3286249A0D5800DDB52B /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		FADB3288249A181800DDB52B /* DatabaseManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DatabaseManager.swift; sourceTree = "<group>"; };
 		FAEDB3562499372C00DAC22C /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
@@ -117,6 +121,7 @@
 				FAEDB35A2499376500DAC22C /* PhotoViewerViewController.swift */,
 				FAEDB35C2499378100DAC22C /* VideoPlayerViewController.swift */,
 				FAEDB35E249937CA00DAC22C /* NewConversationViewController.swift */,
+				FA35F82A249BAABC0050503F /* ChatViewController.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -151,6 +156,7 @@
 				FA143A61249933910063FF82 /* SceneDelegate.swift */,
 				FAEDB36324993E3400DAC22C /* Extensions.swift */,
 				FADB3288249A181800DDB52B /* DatabaseManager.swift */,
+				FAB926D4249E907D00C6ED6D /* StorageManager.swift */,
 			);
 			path = Resources;
 			sourceTree = "<group>";
@@ -326,7 +332,9 @@
 				FA143A60249933910063FF82 /* AppDelegate.swift in Sources */,
 				FAEDB361249937E000DAC22C /* ProfileViewController.swift in Sources */,
 				FA143A62249933910063FF82 /* SceneDelegate.swift in Sources */,
+				FA35F82B249BAABC0050503F /* ChatViewController.swift in Sources */,
 				FAEDB35B2499376500DAC22C /* PhotoViewerViewController.swift in Sources */,
+				FAB926D5249E907D00C6ED6D /* StorageManager.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

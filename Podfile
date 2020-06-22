@@ -9,6 +9,7 @@ target 'MessengerApp' do
 pod 'Firebase/Core'
 pod 'Firebase/Auth'
 pod 'Firebase/Database'
+pod 'Firebase/Storage'
 
 # Facebook:
 pod 'FBSDKLoginKit'
@@ -16,6 +17,17 @@ pod 'FBSDKLoginKit'
 # Google:
 pod 'GoogleSignIn'
 
+# message kit:
+pod 'MessageKit'
+
+# JG Progress HUD:
+pod 'JGProgressHUD'
+
+# realm:
+pod 'RealmSwift'
+
+# sd web image: 
+pod 'SDWebImage'
   # Pods for MessengerApp
 
 end

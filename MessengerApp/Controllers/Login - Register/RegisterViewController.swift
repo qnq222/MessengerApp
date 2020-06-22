@@ -8,9 +8,13 @@
 
 import UIKit
 import FirebaseAuth
-
+import JGProgressHUD 
 
 class RegisterViewController: UIViewController {
+    
+    // MARK: - UI declaration:
+     
+    private let spinner = JGProgressHUD(style: .dark)
     
     private let mainScrollView: UIScrollView = {
         let scrollView = UIScrollView()
@@ -175,6 +179,8 @@ class RegisterViewController: UIViewController {
     }
     
     
+    // MARK: - the registration process:
+    
     @objc private func registerBtnPressed(){
         
         firstNameTextField.resignFirstResponder()
@@ -192,24 +198,52 @@ class RegisterViewController: UIViewController {
                 return
         }
         
+         spinner.show(in: view)
+        
         // do the register process: with firebase.
         DatabaseManager.shared.userExists(with: email, completion: { [weak self] exsit in
             guard let strongSelf = self else {
                 return
             }
+            
+            DispatchQueue.main.async {
+                strongSelf.spinner.dismiss()
+            }
+            
             guard !exsit else {
                 // user aleady exsits
                 strongSelf.alertUserLoginError(message: "User aleady exsits")
                 return
             }
+            
             FirebaseAuth.Auth.auth().createUser(withEmail: email, password: password, completion: {authResult, error in
                 guard authResult != nil, error == nil else {
                     print("Error")
                     return
                 }
-                DatabaseManager.shared.insertUser(with: User(firstName: firstName,
-                                                             lastName: lastName,
-                                                             emailAddress: email))
+                let user =  User(firstName: firstName,
+                                 lastName: lastName,
+                                 emailAddress: email)
+                DatabaseManager.shared.insertUser(with: user , completion: { success in
+                    if success {
+                        // upload image.
+                        guard let image = strongSelf.userImageView.image,
+                              let data = image.pngData() else {
+                            return
+                        }
+                        let fileName = user.profilePictureFileName
+                        StorageManager.shared.uploadProfilePicture(with: data,fileName: fileName, completion: { result in
+                            switch result {
+                            case .success(let downloadUrl):
+                                UserDefaults.standard.set(downloadUrl, forKey: "profile_picture_url")
+                                print(downloadUrl)
+                            case .failure(let error):
+                                print("storage manager error \(error)")
+                            }
+                                                                    
+                        })
+                    }
+                })
                 strongSelf.navigationController?.dismiss(animated: true, completion: nil)
             })
         })
@@ -230,6 +264,8 @@ class RegisterViewController: UIViewController {
     }
     
 }
+
+// MARK: - the textFields delegations:
 
 extension RegisterViewController: UITextFieldDelegate {
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {

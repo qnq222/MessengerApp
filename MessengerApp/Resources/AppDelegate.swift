@@ -66,15 +66,45 @@ class AppDelegate: UIResponder, UIApplicationDelegate , GIDSignInDelegate{
         guard let email   = user.profile.email,
             let firstname = user.profile.givenName,
             let lastname  = user.profile.familyName else {
-            return
+                return
         }
+        
+        // get the user email to save it in the database:
+        UserDefaults.standard.set(email, forKey: "email")
         
         DatabaseManager.shared.userExists(with: email, completion: {exists in
             if !exists {
                 // insert the email to database:
-                DatabaseManager.shared.insertUser(with: User(firstName: firstname,
-                                                             lastName: lastname,
-                                                             emailAddress: email ))
+                let userChat = User(firstName: firstname,
+                                    lastName: lastname,
+                                    emailAddress: email)
+                DatabaseManager.shared.insertUser(with: userChat , completion: { success in
+                    if success {
+                        // upload the image:
+                        
+                        if user.profile.hasImage {
+                            guard let url = user.profile.imageURL(withDimension: 200) else {
+                                return
+                            }
+                            URLSession.shared.dataTask(with: url, completionHandler: { data,_,_ in
+                                guard let data = data else {
+                                    return
+                                }
+                                
+                                let fileName = userChat.profilePictureFileName
+                                StorageManager.shared.uploadProfilePicture(with: data,fileName: fileName, completion: { result in
+                                    switch result {
+                                    case .success(let downloadUrl):
+                                        UserDefaults.standard.set(downloadUrl, forKey: "profile_picture_url")
+                                        print(downloadUrl)
+                                    case .failure(let error):
+                                        print("storage manager error \(error)")
+                                    }
+                                })
+                            }).resume()
+                        }
+                    }
+                })
             }
         })
         
@@ -90,7 +120,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate , GIDSignInDelegate{
                 print("Failed to login with google credentials")
                 return
             }
-             
+            
             print("successfully signed in with google credentials")
             NotificationCenter.default.post(name: .didLoginNotification, object: nil)
         })
