@@ -10,44 +10,6 @@ import UIKit
 import MessageKit
 import InputBarAccessoryView
 
-struct Message:MessageType {
-   public var sender: SenderType
-   public var messageId: String
-   public var sentDate: Date
-   public var kind: MessageKind
-}
-
-extension MessageKind {
-    var messageKindString: String {
-        switch self {
-        case .text(_):
-            return "text"
-        case .attributedText(_):
-            return "attributed_ext"
-        case .photo(_):
-            return "photo"
-        case .video(_):
-            return "video"
-        case .location(_):
-            return "location"
-        case .emoji(_):
-            return "emoji"
-        case .audio(_):
-            return "audio"
-        case .contact(_):
-            return "contact"
-        case .custom(_):
-            return "custom"
-        }
-    }
-}
-
-struct Sender:SenderType {
-   public var photoURL:String
-   public var senderId: String
-   public var displayName: String
-}
-
 class ChatViewController: MessagesViewController {
     
     public static let dateFormatter: DateFormatter = {
@@ -57,7 +19,9 @@ class ChatViewController: MessagesViewController {
         formatter.locale =  .current
         return formatter
     }()
+    
     public let otherUserEmail: String
+    private let conversationId: String?
     public var isNewConversation = false
     
     private var messages = [Message]()
@@ -66,15 +30,19 @@ class ChatViewController: MessagesViewController {
         guard let email = UserDefaults.standard.value(forKey: "email") as? String else {
             return nil
         }
+        
+        let safeEmail = DatabaseManager.safeEmail(emailAddress: email)
+        
         return Sender(photoURL: "",
-                      senderId: email,
-                      displayName: "Ayman ali")
+                      senderId: safeEmail,
+                      displayName: "Me")
     }
     
     // so when we create a new object form this view controller we want to initiat the email with it
     // so we can diffetare the users.
-    init(with email: String) {
+    init(with email: String , id: String?) {
         self.otherUserEmail = email
+        self.conversationId = id
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -105,8 +73,34 @@ class ChatViewController: MessagesViewController {
         super.viewDidAppear(true)
         // because we want the keyboard to appear when the view appear not when loaded 
         messageInputBar.inputTextView.becomeFirstResponder()
+        
+        //
+        if let conversationId = conversationId {
+            listenForMessages(id: conversationId, shouldScrollToBottom: true)
+        }
     }
     
+    private func listenForMessages(id: String , shouldScrollToBottom: Bool){
+        DatabaseManager.shared.getAllMessageForConversation(with: id, completion: { [weak self] result in
+            switch result {
+            case .success(let messages):
+                print("success getting the messages \(messages)")
+                guard !messages.isEmpty else {
+                    print("messages are empty")
+                    return
+                }
+                self?.messages = messages
+                DispatchQueue.main.async {
+                self?.messagesCollectionView.reloadDataAndKeepOffset()
+                    if shouldScrollToBottom {
+                        self?.messagesCollectionView.scrollToBottom()
+                    }
+                }
+            case .failure(let error):
+                print("error getting the messsages form the database: \(error)")
+            }
+        })
+    }
 }
 
 extension ChatViewController: InputBarAccessoryViewDelegate {
@@ -119,25 +113,38 @@ extension ChatViewController: InputBarAccessoryViewDelegate {
         
         print("sending message: \(text)")
         
+        let message = Message(sender: selfSender ,
+                              messageId: messageId,
+                              sentDate: Date(),
+                              kind: .text(text))
+        
         // send the message:
         if isNewConversation {
             // create the conversation in the database:
-            let message = Message(sender: selfSender ,
-                                  messageId: messageId,
-                                  sentDate: Date(),
-                                  kind: .text(text))
-            DatabaseManager.shared.createNewConversation(with: otherUserEmail, firstMessage: message, completion: { [weak self] success in
+            DatabaseManager.shared.createNewConversation(with: otherUserEmail, name: self.title ?? "User", firstMessage: message, completion: { [weak self] success in
                 guard let strongSelf = self else {
                     return
                 }
                 if success {
                     print("message sent: \(message) to: \(strongSelf.otherUserEmail)")
+                    strongSelf.isNewConversation = false
                 } else {
                     print("Failed to sent message.")
                 }
             })
         } else {
+            guard let conversationId = conversationId,
+                let name = self.title else {
+                return
+            }
             // append to existing data:
+            DatabaseManager.shared.sendMessage(to: conversationId,otherUserEmail: otherUserEmail, name: name,newMessage: message, completion: { success in
+                if success {
+                    print("message sent \(message)")
+                } else {
+                    print("Failed to sent message.")
+                }
+            })
         }
     }
     
@@ -166,7 +173,7 @@ extension ChatViewController: MessagesDataSource, MessagesLayoutDelegate ,Messag
             return sender
         }
         fatalError("self sender is nil, email should be cached.")
-        return Sender(photoURL: "", senderId: "12", displayName: "ayman")
+        //return Sender(photoURL: "", senderId: "12", displayName: "ayman")
     }
     
     func messageForItem(at indexPath: IndexPath, in messagesCollectionView: MessagesCollectionView) -> MessageType {
@@ -179,3 +186,4 @@ extension ChatViewController: MessagesDataSource, MessagesLayoutDelegate ,Messag
         return messages.count
     }
 }
+ 

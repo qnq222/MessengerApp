@@ -69,8 +69,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate , GIDSignInDelegate{
                 return
         }
         
-        // get the user email to save it in the database:
+        // get the user email to save it in the userdefault:
         UserDefaults.standard.set(email, forKey: "email")
+        UserDefaults.standard.set("\(firstname) \(lastname)", forKey: "name")
         
         DatabaseManager.shared.userExists(with: email, completion: {exists in
             if !exists {
