@@ -8,7 +8,7 @@
 
 import Foundation
 import FirebaseDatabase
-
+import MessageKit
 
 final class DatabaseManager {
     
@@ -406,6 +406,31 @@ extension DatabaseManager {
                         return nil
                 }
                 
+                var messageKind: MessageKind?
+                
+                if messageType == "photo" {
+                    // the message type is a photo:
+                    
+                    guard let imageUrl = URL(string: content),
+                    let placeHolder = UIImage(systemName: "plus") else {
+                        return nil
+                    }
+                    
+                    let media = Media(url: imageUrl,
+                                      image: nil,
+                                      placeholderImage: placeHolder,
+                                      size: CGSize(width: 300, height: 300))
+                    
+                    messageKind = .photo(media)
+                } else {
+                    // its a text message:
+                    messageKind = .text(content)
+                }
+                
+                guard let finalKind = messageKind else {
+                    return nil
+                }
+                
                 let sender = Sender(photoURL: "",
                                     senderId: senderEmail,
                                     displayName: name)
@@ -413,7 +438,7 @@ extension DatabaseManager {
                 return Message(sender: sender,
                                messageId: messageId,
                                sentDate: dateString,
-                               kind: .text(content))
+                               kind: finalKind)
             })
             completion(.success(messages))
         })
@@ -445,7 +470,10 @@ extension DatabaseManager {
                 message = messageText
             case .attributedText(_):
                 break
-            case .photo(_):
+            case .photo(let mediaItem):
+                if let targetUrlString = mediaItem.url?.absoluteString {
+                 message = targetUrlString
+                }
                 break
             case .video(_):
                 break

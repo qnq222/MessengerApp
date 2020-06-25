@@ -14,6 +14,7 @@
 		FA073D6324A1235C001F9BF0 /* Sender.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA073D6224A1235C001F9BF0 /* Sender.swift */; };
 		FA073D6524A123A1001F9BF0 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA073D6424A123A1001F9BF0 /* User.swift */; };
 		FA073D6724A1245A001F9BF0 /* LatestMessage.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA073D6624A1245A001F9BF0 /* LatestMessage.swift */; };
+		FA07D4E024A4B5F800A53903 /* Media.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA07D4DF24A4B5F800A53903 /* Media.swift */; };
 		FA143A60249933910063FF82 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA143A5F249933910063FF82 /* AppDelegate.swift */; };
 		FA143A62249933910063FF82 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA143A61249933910063FF82 /* SceneDelegate.swift */; };
 		FA143A64249933910063FF82 /* ConversationsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA143A63249933910063FF82 /* ConversationsViewController.swift */; };
@@ -43,6 +44,7 @@
 		FA073D6224A1235C001F9BF0 /* Sender.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Sender.swift; sourceTree = "<group>"; };
 		FA073D6424A123A1001F9BF0 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		FA073D6624A1245A001F9BF0 /* LatestMessage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LatestMessage.swift; sourceTree = "<group>"; };
+		FA07D4DF24A4B5F800A53903 /* Media.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Media.swift; sourceTree = "<group>"; };
 		FA143A5C249933910063FF82 /* MessengerApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MessengerApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		FA143A5F249933910063FF82 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		FA143A61249933910063FF82 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -156,6 +158,7 @@
 				FA073D6224A1235C001F9BF0 /* Sender.swift */,
 				FA073D6424A123A1001F9BF0 /* User.swift */,
 				FA073D6624A1245A001F9BF0 /* LatestMessage.swift */,
+				FA07D4DF24A4B5F800A53903 /* Media.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -354,6 +357,7 @@
 				FA143A62249933910063FF82 /* SceneDelegate.swift in Sources */,
 				FA073D5D24A11F02001F9BF0 /* ConversationTableViewCell.swift in Sources */,
 				FA35F82B249BAABC0050503F /* ChatViewController.swift in Sources */,
+				FA07D4E024A4B5F800A53903 /* Media.swift in Sources */,
 				FA073D6524A123A1001F9BF0 /* User.swift in Sources */,
 				FA073D6124A1232F001F9BF0 /* Message.swift in Sources */,
 				FAEDB35B2499376500DAC22C /* PhotoViewerViewController.swift in Sources */,
