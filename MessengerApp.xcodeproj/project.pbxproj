@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		8C6FF4ECCDAF805500C9767A /* Pods_MessengerApp.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 56AA42471E0BF99DBC0164FD /* Pods_MessengerApp.framework */; };
+		FA03B32E24A5239A00E068C2 /* NewConversationCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA03B32D24A5239A00E068C2 /* NewConversationCell.swift */; };
+		FA03B33024A5243C00E068C2 /* SearchResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA03B32F24A5243C00E068C2 /* SearchResult.swift */; };
 		FA073D5D24A11F02001F9BF0 /* ConversationTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA073D5C24A11F02001F9BF0 /* ConversationTableViewCell.swift */; };
 		FA073D5F24A12302001F9BF0 /* Conversation.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA073D5E24A12302001F9BF0 /* Conversation.swift */; };
 		FA073D6124A1232F001F9BF0 /* Message.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA073D6024A1232F001F9BF0 /* Message.swift */; };
@@ -38,6 +40,8 @@
 		56AA42471E0BF99DBC0164FD /* Pods_MessengerApp.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_MessengerApp.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		6A40BE8AB81ED6C8AF8EA6BF /* Pods-MessengerApp.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MessengerApp.debug.xcconfig"; path = "Target Support Files/Pods-MessengerApp/Pods-MessengerApp.debug.xcconfig"; sourceTree = "<group>"; };
 		D4E62C88CD912F43BEF2DC80 /* Pods-MessengerApp.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MessengerApp.release.xcconfig"; path = "Target Support Files/Pods-MessengerApp/Pods-MessengerApp.release.xcconfig"; sourceTree = "<group>"; };
+		FA03B32D24A5239A00E068C2 /* NewConversationCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewConversationCell.swift; sourceTree = "<group>"; };
+		FA03B32F24A5243C00E068C2 /* SearchResult.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchResult.swift; sourceTree = "<group>"; };
 		FA073D5C24A11F02001F9BF0 /* ConversationTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConversationTableViewCell.swift; sourceTree = "<group>"; };
 		FA073D5E24A12302001F9BF0 /* Conversation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Conversation.swift; sourceTree = "<group>"; };
 		FA073D6024A1232F001F9BF0 /* Message.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Message.swift; sourceTree = "<group>"; };
@@ -146,6 +150,7 @@
 				FA143A78249936130063FF82 /* Storyboards */,
 				FA143A68249933940063FF82 /* Assets.xcassets */,
 				FA073D5C24A11F02001F9BF0 /* ConversationTableViewCell.swift */,
+				FA03B32D24A5239A00E068C2 /* NewConversationCell.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -159,6 +164,7 @@
 				FA073D6424A123A1001F9BF0 /* User.swift */,
 				FA073D6624A1245A001F9BF0 /* LatestMessage.swift */,
 				FA07D4DF24A4B5F800A53903 /* Media.swift */,
+				FA03B32F24A5243C00E068C2 /* SearchResult.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -343,6 +349,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				FA03B33024A5243C00E068C2 /* SearchResult.swift in Sources */,
 				FAEDB3572499372C00DAC22C /* LoginViewController.swift in Sources */,
 				FADB3289249A181800DDB52B /* DatabaseManager.swift in Sources */,
 				FA073D6324A1235C001F9BF0 /* Sender.swift in Sources */,
@@ -362,6 +369,7 @@
 				FA073D6124A1232F001F9BF0 /* Message.swift in Sources */,
 				FAEDB35B2499376500DAC22C /* PhotoViewerViewController.swift in Sources */,
 				FA073D6724A1245A001F9BF0 /* LatestMessage.swift in Sources */,
+				FA03B32E24A5239A00E068C2 /* NewConversationCell.swift in Sources */,
 				FAB926D5249E907D00C6ED6D /* StorageManager.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

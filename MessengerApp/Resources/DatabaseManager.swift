@@ -379,7 +379,7 @@ extension DatabaseManager {
                                                          isMessageRead: isMessageRead)
                 
                 return Conversation(id: conversationId,
-                                    reciverName: reciverName,
+                                    name: reciverName,
                                     otherUserEmail: othreUserEmail,
                                     latestMessage: latestMesssageObject )
             })
@@ -422,6 +422,20 @@ extension DatabaseManager {
                                       size: CGSize(width: 300, height: 300))
                     
                     messageKind = .photo(media)
+                }
+                else if messageType == "video" {
+                    // the message type is a video:
+                    guard let vidoeUrl = URL(string: content),
+                    let placeHolder = UIImage(named: "video_placeHolder") else {
+                        return nil
+                    }
+                    
+                    let media = Media(url: vidoeUrl,
+                                      image: nil,
+                                      placeholderImage: placeHolder,
+                                      size: CGSize(width: 300, height: 300))
+                    
+                    messageKind = .video(media)
                 } else {
                     // its a text message:
                     messageKind = .text(content)
@@ -475,7 +489,10 @@ extension DatabaseManager {
                  message = targetUrlString
                 }
                 break
-            case .video(_):
+            case .video(let mediaItem):
+                if let targetUrlString = mediaItem.url?.absoluteString {
+                 message = targetUrlString
+                }
                 break
             case .location(_):
                 break

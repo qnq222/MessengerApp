@@ -11,7 +11,7 @@ import JGProgressHUD
 
 class NewConversationViewController: UIViewController {
 
-    public var completion: (([String:String]) -> (Void))?
+    public var completion: ((SearchResult) -> (Void))?
     
     //MARK: - UI Decleration:
     private let sppiner = JGProgressHUD(style: .dark)
@@ -25,8 +25,8 @@ class NewConversationViewController: UIViewController {
     private let userTableView: UITableView = {
         let tableView = UITableView()
         tableView.isHidden = true
-        tableView.register(UITableViewCell.self,
-                           forCellReuseIdentifier: "usersCell")
+        tableView.register(NewConversationCell.self,
+                           forCellReuseIdentifier: NewConversationCell.identifier )
         return tableView
     }()
     
@@ -42,7 +42,7 @@ class NewConversationViewController: UIViewController {
     
     // MARK: - Variables Decleration:
     private var users = [[String: String]]()
-    private var results = [[String: String]]()
+    private var results = [SearchResult]()
     private var hasFetched = false
     
     
@@ -123,18 +123,30 @@ extension NewConversationViewController: UISearchBarDelegate {
     
     func filterUser(with term: String){
         // update the UI: either show the results or show no results label
-        guard hasFetched else {
+        guard let currentUserEmail = UserDefaults.standard.value(forKey: "email") as? String,
+            hasFetched else {
             return
         }
         
+        let safeEmail = DatabaseManager.safeEmail(emailAddress: currentUserEmail)
+        
         self.sppiner.dismiss()
         
-        let results: [[String: String]] = self.users.filter({
+        let results: [SearchResult] = self.users.filter({
+            guard let email = $0["email"], email != safeEmail else {
+                    return false
+            }
             guard let name = $0["name"]?.lowercased() else {
                 return false
             }
             
             return name.hasPrefix(term.lowercased())
+        }).compactMap({
+            guard let email = $0["email"],
+                let name = $0["name"] else {
+                return nil
+            }
+            return SearchResult(name: name, email: email)
         })
         self.results = results
         updateUI()
@@ -158,8 +170,10 @@ extension NewConversationViewController: UITableViewDelegate, UITableViewDataSou
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "usersCell", for: indexPath)
-        cell.textLabel?.text = results[indexPath.row]["name"]
+        let model = results[indexPath.row]
+        let cell = tableView.dequeueReusableCell(withIdentifier: NewConversationCell.identifier,
+                                                 for: indexPath) as! NewConversationCell
+        cell.configure(with: model)
         return cell
     }
     
@@ -172,6 +186,10 @@ extension NewConversationViewController: UITableViewDelegate, UITableViewDataSou
             // ? because its an opitional.
             self?.completion?(targetUserResult)
         })
+    }
+    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 90 
     }
     
 }

@@ -61,6 +61,8 @@
 	<true/>
 	<key>NSCameraUsageDescription</key>
 	<string>Press Allow to take a photo</string>
+	<key>NSMicrophoneUsageDescription</key>
+	<string>allow to be able to send video messages</string>
 	<key>NSPhotoLibraryAddUsageDescription</key>
 	<string>Press Allow to select a photo</string>
 	<key>UIApplicationSceneManifest</key>

@@ -91,12 +91,10 @@ class ConversationsViewController: UIViewController {
         present(nav, animated: true)
     }
     
-    private func createNewConversation(result: [String: String]){
-        guard let name = result["name"],
-            let email = result["email"] else {
-                print("error creating new conversation")
-            return
-        }
+    private func createNewConversation(result: SearchResult){
+        let name = result.name
+        let email = result.email
+        
         let chatCV = ChatViewController(with: email, id: nil)
         chatCV.isNewConversation = true
         chatCV.title = name
@@ -153,7 +151,7 @@ extension ConversationsViewController: UITableViewDelegate , UITableViewDataSour
         let model = conversations[indexPath.row]
         
         let chatCV = ChatViewController(with: model.otherUserEmail , id: model.id)
-        chatCV.title = model.reciverName
+        chatCV.title = model.name
         chatCV.navigationItem.largeTitleDisplayMode = .never
         navigationController?.pushViewController(chatCV, animated: true )
     }
