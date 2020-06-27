@@ -44,7 +44,7 @@ class RegisterViewController: UIViewController {
         textField.placeholder = "First Name"
         textField.leftView = UIView(frame: CGRect(x: 0, y: 0, width: 8, height: 0))
         textField.leftViewMode = .always
-        textField.backgroundColor = .white
+        textField.backgroundColor = .secondarySystemBackground
         return textField
     }()
     
@@ -59,7 +59,7 @@ class RegisterViewController: UIViewController {
         textField.placeholder = "Last Name"
         textField.leftView = UIView(frame: CGRect(x: 0, y: 0, width: 8, height: 0))
         textField.leftViewMode = .always
-        textField.backgroundColor = .white
+        textField.backgroundColor = .secondarySystemBackground
         return textField
     }()
     
@@ -74,7 +74,7 @@ class RegisterViewController: UIViewController {
         textField.placeholder = "Email"
         textField.leftView = UIView(frame: CGRect(x: 0, y: 0, width: 8, height: 0))
         textField.leftViewMode = .always
-        textField.backgroundColor = .white
+        textField.backgroundColor = .secondarySystemBackground
         return textField
     }()
     
@@ -89,7 +89,7 @@ class RegisterViewController: UIViewController {
         textField.placeholder = "Password"
         textField.leftView = UIView(frame: CGRect(x: 0, y: 0, width: 8, height: 0))
         textField.leftViewMode = .always
-        textField.backgroundColor = .white
+        textField.backgroundColor = .secondarySystemBackground
         textField.isSecureTextEntry = true
         return textField
     }()
@@ -110,7 +110,7 @@ class RegisterViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         title = "Create New Account"
-        view.backgroundColor = .white
+        view.backgroundColor = .systemBackground
         
         // adding the subviews in the controller:
         view.addSubview(mainScrollView)
@@ -221,6 +221,10 @@ class RegisterViewController: UIViewController {
                     print("Error")
                     return
                 }
+                
+                UserDefaults.standard.set(email, forKey: "email")
+                UserDefaults.standard.set("\(firstName) \(lastName)", forKey: "name")
+                
                 let user =  User(firstName: firstName,
                                  lastName: lastName,
                                  emailAddress: email)

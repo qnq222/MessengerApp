@@ -9,7 +9,9 @@
 import Foundation
 import FirebaseDatabase
 import MessageKit
+import CoreLocation
 
+/// manager oject to read and write data to real time database
 final class DatabaseManager {
     
     static let shared = DatabaseManager()
@@ -28,7 +30,7 @@ extension DatabaseManager {
     
     /// get the data for a specific path passed in
     public func getDataFor(path: String, completion: @escaping (Result<Any, Error>) -> Void){
-        self.database.child("\(path)").observeSingleEvent(of: .value, with: {snapshot in
+        database.child("\(path)").observeSingleEvent(of: .value, with: {snapshot in
             guard let value = snapshot.value else {
                 completion(.failure(DatabaseError.failedToFetchData))
                 return
@@ -43,6 +45,9 @@ extension DatabaseManager {
 extension DatabaseManager {
     
     /// validate the user if existing or not true if the user does not exist and false if exist
+    /// Parameters:
+    /// - `email`: target email to be checked.
+    /// - `completion`: asnyc closure to return with result
     public func userExists(with email: String , completion: @escaping ((Bool) -> Void)){
         
         let safeEmail = DatabaseManager.safeEmail(emailAddress: email)
@@ -60,14 +65,19 @@ extension DatabaseManager {
         database.child(user.safeEmail).setValue([
             "first_name": user.firstName,
             "last_name": user.lastName
-            ] , withCompletionBlock: {error , _ in
+            ] , withCompletionBlock: { [weak self] error , _ in
+                
+                guard let strongSelf = self else {
+                    return
+                }
+                
                 guard error == nil else {
                     print("failed to write data to database")
                     completion(false)
                     return
                 }
                 
-                self.database.child("users").observeSingleEvent(of: .value, with: {snapshot in
+                strongSelf.database.child("users").observeSingleEvent(of: .value, with: {snapshot in
                     if var usersCollection = snapshot.value as? [[String:String]] {
                         // append to user dictionary:
                         let newElement = [
@@ -76,7 +86,7 @@ extension DatabaseManager {
                         ]
                         usersCollection.append(newElement)
                         
-                        self.database.child("users").setValue(usersCollection , withCompletionBlock: {error, _ in
+                        strongSelf.database.child("users").setValue(usersCollection , withCompletionBlock: {error, _ in
                             guard error == nil else {
                                 completion(false)
                                 return
@@ -93,7 +103,7 @@ extension DatabaseManager {
                             ]
                         ]
                         
-                        self.database.child("users").setValue(newCollection , withCompletionBlock: {error, _ in
+                        strongSelf.database.child("users").setValue(newCollection , withCompletionBlock: {error, _ in
                             guard error == nil else {
                                 completion(false)
                                 return
@@ -420,8 +430,7 @@ extension DatabaseManager {
                                       size: CGSize(width: 300, height: 300))
                     
                     messageKind = .photo(media)
-                }
-                else if messageType == "video" {
+                } else if messageType == "video" {
                     // the message type is a video:
                     guard let vidoeUrl = URL(string: content),
                         let placeHolder = UIImage(named: "video_placeHolder") else {
@@ -434,6 +443,20 @@ extension DatabaseManager {
                                       size: CGSize(width: 300, height: 300))
                     
                     messageKind = .video(media)
+                } else if messageType == "location" {
+                  // location message:
+                    let locationComponents = content.components(separatedBy: ",")
+                    guard let longitude = Double(locationComponents[0]),
+                    let latitude = Double(locationComponents[1]) else {
+                        return nil
+                    }
+                    print("rendering location: longitude = \(longitude) , latitude = \(latitude)")
+                    
+                    let location = Location(location: CLLocation(latitude: latitude, longitude: longitude),
+                                            size: CGSize(width: 300, height: 300))
+                    
+                    messageKind = .location(location)
+                    
                 } else {
                     // its a text message:
                     messageKind = .text(content)
@@ -492,7 +515,9 @@ extension DatabaseManager {
                     message = targetUrlString
                 }
                 break
-            case .location(_):
+            case .location(let locationData):
+                let location = locationData.location
+                message = "\(location.coordinate.longitude),\(location.coordinate.latitude)"
                 break
             case .emoji(_):
                 break

@@ -49,7 +49,7 @@ class NewConversationViewController: UIViewController {
     // MARK: - viewDidLoad:
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = .white
+        view.backgroundColor = .systemBackground
         
         // add the subviews:
         view.addSubview(noResultsLB)
@@ -98,7 +98,7 @@ extension NewConversationViewController: UISearchBarDelegate {
         results.removeAll()
         sppiner.show(in: view)
         
-        self.searchUser(query: text)
+        searchUser(query: text)
     }
     
     func searchUser(query: String){
@@ -132,7 +132,7 @@ extension NewConversationViewController: UISearchBarDelegate {
         
         self.sppiner.dismiss()
         
-        let results: [SearchResult] = self.users.filter({
+        let results: [SearchResult] = users.filter({
             guard let email = $0["email"], email != safeEmail else {
                     return false
             }
@@ -154,12 +154,12 @@ extension NewConversationViewController: UISearchBarDelegate {
     
     func updateUI() {
         if results.isEmpty {
-            self.noResultsLB.isHidden = false
-            self.userTableView.isHidden = true
+            noResultsLB.isHidden = false
+            userTableView.isHidden = true
         }else {
-            self.noResultsLB.isHidden = true
-            self.userTableView.isHidden = false
-            self.userTableView.reloadData()
+            noResultsLB.isHidden = true
+            userTableView.isHidden = false
+            userTableView.reloadData()
         }
     }
 }

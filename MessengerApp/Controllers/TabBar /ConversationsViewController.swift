@@ -47,7 +47,6 @@ class ConversationsViewController: UIViewController {
                                                             target: self,
                                                             action: #selector(addConversationPressed))
         setUpTableView()
-        fetchConversations()
         startListeningForConversations()
         
         //
@@ -87,10 +86,6 @@ class ConversationsViewController: UIViewController {
     private func setUpTableView(){
         conversationTableView.delegate = self
         conversationTableView.dataSource = self
-    }
-    
-    private func fetchConversations() {
-        conversationTableView.isHidden = false
     }
     
     @objc private func addConversationPressed(){
@@ -167,12 +162,13 @@ class ConversationsViewController: UIViewController {
         DatabaseManager.shared.getAllConversations(for: safeEmail , completion: { [weak self] result in
             switch result {
             case .success(let conversations):
-                print("successfully got the conversation models")
+                print("successfully got the conversation models \(conversations)")
                 guard !conversations.isEmpty else {
                     self?.conversationTableView.isHidden = true
                     self?.noConversationLabel.isHidden = false
                     return
                 }
+                
                 self?.noConversationLabel.isHidden = true
                 self?.conversationTableView.isHidden = false
                 self?.conversations = conversations
@@ -233,13 +229,12 @@ extension ConversationsViewController: UITableViewDelegate , UITableViewDataSour
         if editingStyle == .delete {
             // begin delete conversation:
             let conversationId = conversations[indexPath.row].id
-            
             tableView.beginUpdates()
-            
-            DatabaseManager.shared.deleteConversation(conversationId: conversationId, completion: { [weak self] success in
-                if success {
-                    self?.conversations.remove(at: indexPath.row)
-                    tableView.deleteRows(at: [indexPath], with: .left)
+            self.conversations.remove(at: indexPath.row)
+            tableView.deleteRows(at: [indexPath], with: .left)
+            DatabaseManager.shared.deleteConversation(conversationId: conversationId, completion: { success in
+                if !success {
+                    print("Failed to delete")
                 }
             })
             tableView.endUpdates()
