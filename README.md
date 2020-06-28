@@ -17,3 +17,7 @@
 4- update messages in the real-time.
 
 5- dark mode support 
+
+
+# app demo: 
+https://youtu.be/FPtog7wIjec
