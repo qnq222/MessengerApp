@@ -1,12 +1,14 @@
-IOS Messagener App using firebase real-time database as backend.
+#IOS Messagener App using firebase real-time database as backend.
 
-![Screen Shot 2020-06-24 at 11 26 23 PM](https://user-images.githubusercontent.com/48182243/85624172-29152500-b672-11ea-9d91-23fc8c4d8637.png)      ![Screen Shot 2020-06-24 at 11 25 41 PM](https://user-images.githubusercontent.com/48182243/85624264-4c3fd480-b672-11ea-81e7-6ebd433a62dd.png)
+![Screen Shot 2020-06-24 at 11 26 23 PM](https://user-images.githubusercontent.com/48182243/85624172-29152500-b672-11ea-9d91-23fc8c4d8637.png)      ![Screen Shot 2020-06-24 at 11 25 50 PM](https://user-images.githubusercontent.com/48182243/85952745-223d2980-b974-11ea-98c6-ac8c6b115131.png)        ![Screen Shot 2020-06-28 at 7 13 05 PM](https://user-images.githubusercontent.com/48182243/85952771-397c1700-b974-11ea-805a-0a0c9084a52f.png)
 
 
 
-App fetures:
 
-1- firebase authentication plus facebook and googel login.
+
+##App features:
+
+1- firebase authentication plus facebook and google login.
 
 2- support text, photo and vidoe messages.
 
@@ -14,4 +16,4 @@ App fetures:
 
 4- update messages in the real-time.
 
-5- may support dark mode (i'm still working on the app).
+5- dark mode support 
