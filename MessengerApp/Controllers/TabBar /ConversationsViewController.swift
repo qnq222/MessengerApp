@@ -12,12 +12,6 @@ import JGProgressHUD
 
 class ConversationsViewController: UIViewController {
     
-    private let sppiner: JGProgressHUD = {
-        let sppiner = JGProgressHUD(style: .dark)
-        sppiner.textLabel.text = "Loading"
-        return sppiner
-    }()
-    
     private var conversations = [Conversation]()
     
     private let conversationTableView: UITableView = {
@@ -42,16 +36,18 @@ class ConversationsViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.addSubview(conversationTableView)
-        view.addSubview(noConversationLabel)
         
         // setup a button to allow the user to create a new conversation:
         //.add but .compose is more meaningful.
         navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .compose,
                                                             target: self,
                                                             action: #selector(addConversationPressed))
+        
+        view.addSubview(conversationTableView)
+        view.addSubview(noConversationLabel)
+        
+        
         setUpTableView()
-        sppiner.show(in: view)
         startListeningForConversations()
         
         //
@@ -61,6 +57,11 @@ class ConversationsViewController: UIViewController {
             }
             strongSelf.startListeningForConversations()
         })
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        startListeningForConversations()
     }
     
     override func viewDidLayoutSubviews() {
@@ -91,6 +92,7 @@ class ConversationsViewController: UIViewController {
     private func setUpTableView(){
         conversationTableView.delegate = self
         conversationTableView.dataSource = self
+        conversationTableView.separatorStyle = .none
     }
     
     @objc private func addConversationPressed(){
@@ -160,7 +162,7 @@ class ConversationsViewController: UIViewController {
         if let observer = loginObserver {
             NotificationCenter.default.removeObserver(observer)
         }
-       sppiner.dismiss()
+        
         print("starting conversations fetch")
         let safeEmail = DatabaseManager.safeEmail(emailAddress: email)
         
@@ -180,7 +182,6 @@ class ConversationsViewController: UIViewController {
                 
                 DispatchQueue.main.async {
                     self?.conversationTableView.reloadData()
-                    self?.sppiner.dismiss()
                 }
                 
             case .failure(let error):
@@ -224,7 +225,7 @@ extension ConversationsViewController: UITableViewDelegate , UITableViewDataSour
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         // because i made the user image in the cell 100 so i want 10 top and 10 bottom
-        return 120
+        return 80
     }
     
     func tableView(_ tableView: UITableView, editingStyleForRowAt indexPath: IndexPath) -> UITableViewCell.EditingStyle {

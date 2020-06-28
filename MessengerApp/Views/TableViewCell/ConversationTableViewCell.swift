@@ -17,8 +17,11 @@ class ConversationTableViewCell: UITableViewCell {
     private let userImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.contentMode = .scaleAspectFill
-        imageView.layer.cornerRadius = 50
+        imageView.layer.cornerRadius = 30
         imageView.layer.masksToBounds = true
+        imageView.contentMode = .scaleAspectFit
+        imageView.layer.borderWidth = 2
+        imageView.layer.borderColor = UIColor.lightGray.cgColor
         return imageView
     }()
 
@@ -31,7 +34,15 @@ class ConversationTableViewCell: UITableViewCell {
     private let userMessaageLabel: UILabel = {
         let label = UILabel()
         label.font = .systemFont(ofSize: 19, weight: .regular)
+        label.textColor = .darkGray
         label.numberOfLines = 0
+        return label
+    }()
+    
+    private let messageDateLabel: UILabel = {
+        let label = UILabel()
+        label.font = .systemFont(ofSize: 12, weight: .bold)
+        label.textColor = .darkGray
         return label
     }()
     
@@ -41,6 +52,7 @@ class ConversationTableViewCell: UITableViewCell {
         contentView.addSubview(userImageView)
         contentView.addSubview(userNameLabel)
         contentView.addSubview(userMessaageLabel)
+        contentView.addSubview(messageDateLabel)
     }
     
     required init?(coder: NSCoder) {
@@ -53,8 +65,8 @@ class ConversationTableViewCell: UITableViewCell {
        
         userImageView.frame = CGRect(x: 10,
                                      y: 10,
-                                     width: 100,
-                                     height: 100)
+                                     width: 60,
+                                     height: 60)
         
         userNameLabel.frame = CGRect(x: userImageView.right + 10,
                                      y: 10,
@@ -65,12 +77,23 @@ class ConversationTableViewCell: UITableViewCell {
                                          y: userNameLabel.bottom + 10,
                                          width: contentView.width - 20 - userImageView.width,
                                          height: (contentView.height-20)/2)
+        
+        messageDateLabel.frame = CGRect(x: userNameLabel.right - 100,
+                                     y: 25,
+                                     width: contentView.width,
+                                     height: (contentView.height-20)/2)
     }
     
     public func configure(with model: Conversation){
         userNameLabel.text = model.name
         userMessaageLabel.text =  model.latestMessage.message
-        
+        let messegeaDate = model.latestMessage.date[0..<6]
+        let messageTime = model.latestMessage.date[16..<21]
+        messageDateLabel.text = "\(messegeaDate) at \(messageTime)"
+        if model.latestMessage.message.contains("message_images") {
+            print("image message")
+              userMessaageLabel.text = "image message"
+        }
         let path = "images/\(model.otherUserEmail)_profile_picture.png"
         StorageManager.shared.downloadUrl(for: path, completion: { [weak self] result in
             switch result {

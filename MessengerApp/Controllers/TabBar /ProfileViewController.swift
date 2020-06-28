@@ -27,6 +27,7 @@ class ProfileViewController: UIViewController {
         profileTableView.dataSource = self
         profileTableView.delegate = self
         profileTableView.tableHeaderView = createTableHeader()
+        profileTableView.separatorStyle = .none
         profileTableView.register(ProfileCell.self, forCellReuseIdentifier: ProfileCell.identifier )
         
         // append date to the tableViewItems:

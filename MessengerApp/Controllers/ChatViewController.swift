@@ -83,7 +83,7 @@ class ChatViewController: MessagesViewController {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         // because we want the keyboard to appear when the view appear not when loaded 
-        messageInputBar.inputTextView.becomeFirstResponder()
+        //messageInputBar.inputTextView.becomeFirstResponder()
         
         //
         if let conversationId = conversationId {
@@ -131,6 +131,7 @@ class ChatViewController: MessagesViewController {
     private func presentLocationPicker(){
         let locationVC = LocationPickerViewController(coordinates: nil)
         locationVC.title = "Send Location"
+        locationVC.hidesBottomBarWhenPushed = true
         locationVC.navigationItem.largeTitleDisplayMode = .never
         locationVC.completion = {[weak self] selectedCoordinate in
             
@@ -424,6 +425,7 @@ extension ChatViewController: MessagesDataSource, MessagesLayoutDelegate ,Messag
             }
         }
     }
+    
 }
 
 extension ChatViewController: MessageCellDelegate {
@@ -439,6 +441,7 @@ extension ChatViewController: MessageCellDelegate {
         case .location(let locationData):
             let coordinates = locationData.location.coordinate
             let locationVC = LocationPickerViewController(coordinates: coordinates)
+            locationVC.hidesBottomBarWhenPushed = true 
             locationVC.title = "View Location"
             navigationController?.pushViewController(locationVC, animated: true)
         default:
@@ -457,7 +460,8 @@ extension ChatViewController: MessageCellDelegate {
             guard let imageUrl = media.url else {
                 return
             }
-            let photoViewVC = PhotoViewerViewController(with: imageUrl )
+            let photoViewVC = PhotoViewerViewController(with: imageUrl)
+            photoViewVC.hidesBottomBarWhenPushed = true
             navigationController?.pushViewController(photoViewVC, animated: true)
         case .video(let media):
             guard let videoUrl = media.url else {
