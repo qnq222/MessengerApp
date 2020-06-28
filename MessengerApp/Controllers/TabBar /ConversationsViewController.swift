@@ -12,7 +12,11 @@ import JGProgressHUD
 
 class ConversationsViewController: UIViewController {
     
-    private let sppiner = JGProgressHUD(style: .dark)
+    private let sppiner: JGProgressHUD = {
+        let sppiner = JGProgressHUD(style: .dark)
+        sppiner.textLabel.text = "Loading"
+        return sppiner
+    }()
     
     private var conversations = [Conversation]()
     
@@ -47,6 +51,7 @@ class ConversationsViewController: UIViewController {
                                                             target: self,
                                                             action: #selector(addConversationPressed))
         setUpTableView()
+        sppiner.show(in: view)
         startListeningForConversations()
         
         //
@@ -155,7 +160,7 @@ class ConversationsViewController: UIViewController {
         if let observer = loginObserver {
             NotificationCenter.default.removeObserver(observer)
         }
-        
+       sppiner.dismiss()
         print("starting conversations fetch")
         let safeEmail = DatabaseManager.safeEmail(emailAddress: email)
         
@@ -175,6 +180,7 @@ class ConversationsViewController: UIViewController {
                 
                 DispatchQueue.main.async {
                     self?.conversationTableView.reloadData()
+                    self?.sppiner.dismiss()
                 }
                 
             case .failure(let error):

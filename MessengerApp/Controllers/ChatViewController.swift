@@ -13,9 +13,16 @@ import SDWebImage
 import AVFoundation
 import AVKit
 import CoreLocation
+import JGProgressHUD
 
 class ChatViewController: MessagesViewController {
     
+    
+    private let spinner: JGProgressHUD = {
+        let spinner = JGProgressHUD(style: .dark)
+        spinner.textLabel.text = "Sending"
+        return spinner
+    }()
     private var senderPhotoURL: URL?
     private var otherUserPhotoURL: URL?
     
@@ -477,6 +484,8 @@ extension ChatViewController: UIImagePickerControllerDelegate, UINavigationContr
                 return
         }
         
+        spinner.show(in: view)
+        
         if let image = info[.editedImage] as? UIImage, let imageData = image.pngData() {
             let fileName = "photo_message_" + messageId.replacingOccurrences(of: " ", with: "-") + ".png"
             // upload image:
@@ -504,13 +513,14 @@ extension ChatViewController: UIImagePickerControllerDelegate, UINavigationContr
                                           sentDate: Date(),
                                           kind: .photo(media))
                     
-                    DatabaseManager.shared.sendMessage(to: conversationId, otherUserEmail: strongSelf.otherUserEmail, name: name, newMessage: message, completion: {success in
+                    DatabaseManager.shared.sendMessage(to: conversationId, otherUserEmail: strongSelf.otherUserEmail, name: name, newMessage: message, completion: { success in
                         if success {
                             print("sent photo message")
                         } else {
                             print("failed to sent message")
                         }
                     })
+                    self?.spinner.dismiss()
                 case .failure(let error):
                     print("failed to upload the message photo: \(error)")
                 }
@@ -543,13 +553,14 @@ extension ChatViewController: UIImagePickerControllerDelegate, UINavigationContr
                     
                     DatabaseManager.shared.sendMessage(to: conversationId, otherUserEmail: strongSelf.otherUserEmail, name: name, newMessage: message, completion: {success in
                         if success {
-                            print("sent photo message")
+                            print("sent video message")
                         } else {
                             print("failed to sent message")
                         }
                     })
+                    self?.spinner.dismiss()
                 case .failure(let error):
-                    print("failed to upload the message photo: \(error)")
+                    print("failed to upload the message video: \(error)")
                 }
             })
         }
