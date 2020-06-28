@@ -25,9 +25,6 @@ pod 'MessageKit'
 # JG Progress HUD:
 pod 'JGProgressHUD'
 
-# realm:
-pod 'RealmSwift'
-
 # sd web image: 
 pod 'SDWebImage'
   # Pods for MessengerApp

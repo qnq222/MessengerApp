@@ -127,7 +127,6 @@
 			isa = PBXGroup;
 			children = (
 				FA143A77249935CD0063FF82 /* Resources */,
-				FA143A76249935BD0063FF82 /* ViewModels */,
 				FA143A75249935AB0063FF82 /* Models */,
 				FA143A74249935A50063FF82 /* Views */,
 				FA143A73249935980063FF82 /* Controllers */,
@@ -174,13 +173,6 @@
 				FA197EFE24A73B2B0092A4C7 /* Profile.swift */,
 			);
 			path = Models;
-			sourceTree = "<group>";
-		};
-		FA143A76249935BD0063FF82 /* ViewModels */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = ViewModels;
 			sourceTree = "<group>";
 		};
 		FA143A77249935CD0063FF82 /* Resources */ = {

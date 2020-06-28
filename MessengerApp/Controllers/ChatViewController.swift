@@ -59,13 +59,7 @@ class ChatViewController: MessagesViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = .link
-        
-        // a demo message:
-        //        messages.append(Message(sender: selfSender,
-        //                                messageId: "1",
-        //                                sentDate: Date(),
-        //                                kind: .text("Hello")))
+       
         
         // messagesCollectionView configuration:
         messagesCollectionView.messagesDataSource = self
@@ -80,7 +74,7 @@ class ChatViewController: MessagesViewController {
     }
     
     override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(true)
+        super.viewDidAppear(animated)
         // because we want the keyboard to appear when the view appear not when loaded 
         messageInputBar.inputTextView.becomeFirstResponder()
         

@@ -185,7 +185,7 @@ extension DatabaseManager {
                 return
         }
         let safeEmail = DatabaseManager.safeEmail(emailAddress: currentEmail)
-        let reference = database.child(safeEmail)
+        let reference = database.child("\(safeEmail)")
         reference.observeSingleEvent(of: .value, with: { [weak self] snapshot in
             guard var userNode = snapshot.value as? [String: Any] else{
                 completion(false)
@@ -499,6 +499,7 @@ extension DatabaseManager {
             }
             let messageDate = newMessage.sentDate
             let dateString = ChatViewController.dateFormatter.string(from: messageDate)
+            
             var message = ""
             switch newMessage .kind {
             case .text(let messageText):
@@ -544,6 +545,7 @@ extension DatabaseManager {
                 "is_message_read": false,
                 "name": name
             ]
+            
     //MARK:- append the message to the meessages array
             currentMessage.append(newMessageEntry)
             
@@ -557,10 +559,11 @@ extension DatabaseManager {
                 strongSelf.database.child("\(currentSafeEmail)/conversations").observeSingleEvent(of: .value, with: {snapshot in
                     var databaseEntryConversation = [[String: Any]]()
                     let updatedValue: [String: Any] = [
-                        "data": dateString,
+                        "date": dateString,
                         "is_message_read": false,
                         "message": message
                     ]
+                    
                     if var currentUserConversations = snapshot.value as? [[String: Any]] {
                         var targetConveration: [String: Any]?
                         var position = 0
@@ -609,7 +612,7 @@ extension DatabaseManager {
                         
                         strongSelf.database.child("\(otherUserEmail)/conversations").observeSingleEvent(of: .value, with: {snapshot in
                             let updatedValue: [String: Any] = [
-                                "data": dateString,
+                                "date": dateString,
                                 "is_message_read": false,
                                 "message": message
                             ]

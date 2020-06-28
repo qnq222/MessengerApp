@@ -92,6 +92,14 @@ class LoginViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        loginObserver = NotificationCenter.default.addObserver(forName: .didLoginNotification, object: nil, queue: .main, using: { [weak self] _ in
+            guard let strongSelf = self else {
+                return
+            }
+            strongSelf.navigationController?.dismiss(animated: true, completion: nil)
+        })
+        
         title = "Login"
         view.backgroundColor = .systemBackground
         
@@ -127,12 +135,7 @@ class LoginViewController: UIViewController {
         //GIDSignIn.sharedInstance().signIn()
         
         //
-        loginObserver = NotificationCenter.default.addObserver(forName: .didLoginNotification, object: nil, queue: .main, using: { [weak self] _ in
-            guard let strongSelf = self else {
-                return
-            }
-            strongSelf.navigationController?.dismiss(animated: true, completion: nil)
-        })
+        
     }
     
     deinit {
@@ -223,7 +226,7 @@ class LoginViewController: UIViewController {
             
             let safeEmail = DatabaseManager.safeEmail(emailAddress: email)
             
-            DatabaseManager.shared.getDataFor(path: safeEmail, completion: { [weak self] result in
+            DatabaseManager.shared.getDataFor(path: safeEmail, completion: {result in
                 switch result {
                 case .success(let data):
                     guard let userData = data as? [String: Any],
